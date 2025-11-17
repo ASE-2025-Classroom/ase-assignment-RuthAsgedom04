@@ -3,31 +3,40 @@ using BOOSEapp;
 
 namespace BOOSEappTests
 {
+    
+    ///  simple unit tests for checking basic BOOSE commands
+    /// like moveto, drawto and running a small program.
+    
     [TestClass]
     public class CommandTests
     {
-        // Helper to create the form for each test
+       
+        /// Creates new form for each test.
+       
         private Form1 CreateForm()
         {
             return new Form1();
         }
 
-        // 1) Unit Test for moveto command (pen position)
+        
+        /// Checks that the moveto command correctly updates
+        /// the current X and Y positions.
+        
         [TestMethod]
         public void MoveTo_SetsCurrentPosition()
         {
-            // arrange
             var form = CreateForm();
 
-            // act
             form.RunProgram("moveto 100 150");
 
-            // assert
             Assert.AreEqual(100, form.CurrentX);
             Assert.AreEqual(150, form.CurrentY);
         }
 
-        // 2) Unit Test for drawto command (pen moves correctly)
+
+        /// Makes sure the drawto command moves the pen
+        ///  updates the position afterwards!!
+        
         [TestMethod]
         public void DrawTo_UpdatesCurrentPosition()
         {
@@ -42,7 +51,10 @@ drawto 80 90";
             Assert.AreEqual(90, form.CurrentY);
         }
 
-        // 3) Unit Test for a multiline program
+       
+        /// Tests a short program with several commands to check that
+        /// the final position is correct after everything runs.
+       
         [TestMethod]
         public void MultiLineProgram_EndsInExpectedPosition()
         {
@@ -60,3 +72,4 @@ moveto 5 5";
         }
     }
 }
+

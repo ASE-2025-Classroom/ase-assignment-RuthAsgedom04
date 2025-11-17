@@ -7,14 +7,19 @@ using System.Diagnostics;
 
 namespace BOOSEapp
 {
+   
+    //Main form for the BOOSE application that provides
+    //text box and drawes the result on the canvas
     public partial class Form1 : Form
     {
         private Canvas canvasHelper;
         private Bitmap canvasBitmap;
         private int currentX = 0;
         private int currentY = 0;
+        public int CurrentX => currentX;
+        public int CurrentY => currentY;
 
-
+        // Sets up the form and gets the canvas up fotr drawing
         public Form1()
         {
             InitializeComponent();
@@ -24,15 +29,19 @@ namespace BOOSEapp
             canvas.Image = canvasBitmap;
         }
 
-
+        //This is what controls the running of the program
         private void runButton_Click(object sender, EventArgs e)
+        {
+            RunProgram(programTextBox.Text);
+        }
+
+        public void RunProgram(string program)
         {
             using (Graphics g = Graphics.FromImage(canvasBitmap))
             {
                 g.Clear(Color.White);
                 canvasHelper = new Canvas(g);
 
-                string program = programTextBox.Text;
                 string[] lines = program.Split(
                     new[] { '\r', '\n' },
                     StringSplitOptions.RemoveEmptyEntries);
@@ -65,15 +74,13 @@ namespace BOOSEapp
                             MessageBox.Show($"Error in moveto command: {trimmed}");
                         }
                     }
-                    else if (cmd == "drawto")   // <--- ADD THIS BLOCK
+                    else if (cmd == "drawto")
                     {
                         if (parts.Length == 3 &&
                             int.TryParse(parts[1], out int x) &&
                             int.TryParse(parts[2], out int y))
                         {
                             canvasHelper.DrawLine(currentX, currentY, x, y);
-
-                            // update current position
                             currentX = x;
                             currentY = y;
                         }
@@ -126,7 +133,7 @@ namespace BOOSEapp
                         if (parts.Length == 4 &&
                             int.TryParse(parts[1], out int r) &&
                             int.TryParse(parts[2], out int green) &&
-        int.TryParse(parts[3], out int b))
+                            int.TryParse(parts[3], out int b))
                         {
                             canvasHelper.SetPenColour(Color.FromArgb(r, green, b));
                         }
@@ -139,15 +146,10 @@ namespace BOOSEapp
                     {
                         MessageBox.Show($"Unknown command: {trimmed}");
                     }
-
                 }
-
-
             }
-          
+
             canvas.Refresh();
         }
     }
 }
-    
-
