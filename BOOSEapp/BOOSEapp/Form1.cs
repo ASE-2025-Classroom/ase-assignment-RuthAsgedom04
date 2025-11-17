@@ -40,6 +40,7 @@ namespace BOOSEapp
                 foreach (string line in lines)
                 {
                     string trimmed = line.Trim();
+                    trimmed = trimmed.Replace(",", " ");
                     if (trimmed == "") continue;
 
                     string[] parts = trimmed.Split(
@@ -62,6 +63,23 @@ namespace BOOSEapp
                         else
                         {
                             MessageBox.Show($"Error in moveto command: {trimmed}");
+                        }
+                    }
+                    else if (cmd == "drawto")   // <--- ADD THIS BLOCK
+                    {
+                        if (parts.Length == 3 &&
+                            int.TryParse(parts[1], out int x) &&
+                            int.TryParse(parts[2], out int y))
+                        {
+                            canvasHelper.DrawLine(currentX, currentY, x, y);
+
+                            // update current position
+                            currentX = x;
+                            currentY = y;
+                        }
+                        else
+                        {
+                            MessageBox.Show($"Error in drawto command: {trimmed}");
                         }
                     }
                     else if (cmd == "rect")
@@ -103,14 +121,30 @@ namespace BOOSEapp
                             MessageBox.Show($"Error in pencolour command: {trimmed}");
                         }
                     }
+                    else if (cmd == "pen")
+                    {
+                        if (parts.Length == 4 &&
+                            int.TryParse(parts[1], out int r) &&
+                            int.TryParse(parts[2], out int green) &&
+        int.TryParse(parts[3], out int b))
+                        {
+                            canvasHelper.SetPenColour(Color.FromArgb(r, green, b));
+                        }
+                        else
+                        {
+                            MessageBox.Show($"Error in pen command: {trimmed}");
+                        }
+                    }
                     else
                     {
                         MessageBox.Show($"Unknown command: {trimmed}");
                     }
-                }
-            }
 
-            
+                }
+
+
+            }
+          
             canvas.Refresh();
         }
     }
