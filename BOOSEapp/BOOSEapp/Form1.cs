@@ -11,5 +11,14 @@ namespace BOOSEapp
             InitializeComponent();
             Debug.WriteLine(AboutBOOSE.about());
         }
+
+        private void runButton_Click(object sender, EventArgs e)
+        {
+            string input = programTextBox.Text;
+            MessageBox.Show(input);
+
+
+        }
+
     }
 }
