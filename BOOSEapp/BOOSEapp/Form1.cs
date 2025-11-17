@@ -110,7 +110,7 @@ namespace BOOSEapp
                 }
             }
 
-            // After all drawing is done, refresh the PictureBox
+            
             canvas.Refresh();
         }
     }
