@@ -43,7 +43,6 @@
             programTextBox.ScrollBars = ScrollBars.Vertical;
             programTextBox.Size = new Size(625, 78);
             programTextBox.TabIndex = 0;
-           
             // 
             // canvas
             // 
