@@ -3,60 +3,67 @@ using System.Drawing;
 
 namespace BOOSEapp
 {
-    
-    /// A simple canvas 
-    /// basic drawing functions used by the BOOSE commands.
-   
-    internal class Canvas
+    /// <summary>
+    /// Concrete implementation of ICanvas using System.Drawing.
+    /// Holds pen position and provides primitive drawing operations.
+    /// </summary>
+    public class Canvas : ICanvas
     {
-        
-        /// The graphics surface where everything is drawn.
-        
-        private Graphics graphics;
+        private readonly Graphics graphics;
+        private readonly Pen pen;
 
-       
-        /// The pen used for drawing shapes and lines.
-    
-        private Pen pen = new Pen(Color.Black);
+        private int currentX;
+        private int currentY;
 
-        
-        /// Creates a new canvas using the supplied Graphics object.
-       
-        public Canvas(Graphics g)
+        public int CurrentX => currentX;
+        public int CurrentY => currentY;
+
+        public int Width { get; }
+        public int Height { get; }
+
+        public Canvas(Graphics g, int width, int height)
         {
-            graphics = g;
+            graphics = g ?? throw new ArgumentNullException(nameof(g));
+            Width = width;
+            Height = height;
+
+            pen = new Pen(Color.Black);
+            currentX = 0;
+            currentY = 0;
         }
 
-        
-        /// Sets the current pen colour for drawing.
-       
-        public void SetPenColour(Color c)
+        public void SetPenColour(Color colour)
         {
-            pen.Color = c;
+            pen.Color = colour;
         }
 
-        
-        /// Draws a straight line between two points.
-       
-        public void DrawLine(int x1, int y1, int x2, int y2)
+        public void MoveTo(int x, int y)
         {
-            graphics.DrawLine(pen, x1, y1, x2, y2);
+            currentX = x;
+            currentY = y;
         }
 
-        
-        /// Draws a rectangle outline from the given position.
-       
-        public void DrawRectangle(int x, int y, int width, int height)
+        public void DrawTo(int x, int y)
         {
-            graphics.DrawRectangle(pen, x, y, width, height);
+            graphics.DrawLine(pen, currentX, currentY, x, y);
+            currentX = x;
+            currentY = y;
         }
 
-        
-        /// Draws a circle at the given centre point and radius.
-       
-        public void DrawCircle(int x, int y, int radius)
+        public void DrawRectangle(int width, int height)
         {
-            graphics.DrawEllipse(pen, x - radius, y - radius, radius * 2, radius * 2);
+            graphics.DrawRectangle(pen, currentX, currentY, width, height);
+        }
+
+        public void DrawCircle(int radius)
+        {
+            int diameter = radius * 2;
+            graphics.DrawEllipse(pen, currentX - radius, currentY - radius, diameter, diameter);
+        }
+
+        public void Clear()
+        {
+            graphics.Clear(Color.White);
         }
     }
 }
