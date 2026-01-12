@@ -36,12 +36,15 @@
             // 
             // programTextBox
             // 
-            programTextBox.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            programTextBox.Anchor =
+
+programTextBox.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+
             programTextBox.Location = new Point(12, 12);
             programTextBox.Multiline = true;
             programTextBox.Name = "programTextBox";
             programTextBox.ScrollBars = ScrollBars.Vertical;
-            programTextBox.Size = new Size(625, 78);
+            programTextBox.Size = new Size(625, 180);
             programTextBox.TabIndex = 0;
          
             // 
